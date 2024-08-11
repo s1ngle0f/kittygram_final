@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from decouple import config
 
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
@@ -61,11 +62,17 @@ WSGI_APPLICATION = 'kittygram_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'kittygram'),
-        'USER': os.getenv('POSTGRES_USER', 'kittygram_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', ''),
-        'PORT': os.getenv('DB_PORT', 5432)
+        'NAME': config('POSTGRES_DB', 'django'), # Я заебался
+        'USER': config('POSTGRES_USER', 'django'),
+        'PASSWORD': config('POSTGRES_PASSWORD', ''),
+        'HOST': config('DB_HOST', ''),
+        'PORT': config('DB_PORT', 5432)
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'kittygram_db',
+        # 'USER': 'kittygram_user',
+        # 'PASSWORD': 'kittygram_password',
+        # 'HOST': 'db',
+        # 'PORT': '5432'
     }
 }
 
