@@ -16,14 +16,14 @@ services:
     build: ./backend
     env_file: .env
     volumes:
-      - static:/backend_static
-      - media:/app/media/
+      - /var/www/kittygram/static:/backend_static
+      - /var/www/kittygram/media:/app/media/
 
   frontend:
     build: ./frontend
     env_file: .env
     volumes:
-      - static:/frontend_static
+      - /var/www/kittygram/static:/frontend_static
     ports:
       - "3000:9000"  # Пробрасываем порт 9000 на порт 3000 хоста
 
@@ -33,5 +33,5 @@ services:
     ports:
       - 9000:80
     volumes:
-      - static:/static
-      - media:/media/
+      - /var/www/kittygram/static:/static
+      - /var/www/kittygram/media:/media/
