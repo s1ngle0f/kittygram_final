@@ -27,6 +27,8 @@ services:
 #    command: cp -r /app/build/. /static/
     volumes:
       - static:/frontend_static
+    ports:
+      - "3000:9000"  # Пробрасываем порт 9000 на порт 3000 хоста
     depends_on:
       - backend
 
