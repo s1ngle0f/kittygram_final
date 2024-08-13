@@ -16,30 +16,27 @@ services:
     image: s1ngle0f/kittygram_backend
     env_file: .env
     volumes:
-      - /var/www/kittygram/static:/app/collected_static
-      - /var/www/kittygram/media:/app/media
+      - /var/www/kittygram/b_static:/app/backend_static
+      - /var/www/kittygram/b_media:/app/media
     depends_on:
       - db 
 
   frontend:
     image: s1ngle0f/kittygram_frontend
     env_file: .env
-#    command: cp -r /app/build/. /static/
     volumes:
-      - /var/www/kittygram/static:/frontend_static
-    ports:
-      - "3000:9000"  # Пробрасываем порт 9000 на порт 3000 хоста
+      - static:/frontend_static
     depends_on:
       - backend
 
   gateway:
     image: s1ngle0f/kittygram_gateway
     env_file: .env
-    volumes:
-      - /var/www/kittygram/static:/static/
-      - /var/www/kittygram/media:/media/
-    depends_on:
-      - backend
-      - frontend
     ports:
-      - 9000:80
+      - 3030:80
+    volumes:
+      - /var/www/kittygram/b_static:/var/www/kittygram/b_static
+      - /var/www/kittygram/b_media:/var/www/kittygram/b_media
+    depends_on:
+      - frontend
+      - backend

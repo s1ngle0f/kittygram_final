@@ -1,9 +1,8 @@
-version: '3'
+#version: '3'
 
 volumes:
   pg_data:
   static:
-  media:
 
 services:
   db:
@@ -15,23 +14,23 @@ services:
   backend:
     build: ./backend
     env_file: .env
+    depends_on:
+      - db
     volumes:
-      - /var/www/kittygram/static:/backend_static
-      - /var/www/kittygram/media:/app/media/
+      - /var/www/kittygram/b_static:/app/backend_static
+      - /var/www/kittygram/b_media:/app/media
 
   frontend:
     build: ./frontend
     env_file: .env
     volumes:
-      - /var/www/kittygram/static:/frontend_static
-    ports:
-      - "3000:9000"  # Пробрасываем порт 9000 на порт 3000 хоста
+      - static:/frontend_static
 
   gateway:
     build: ./nginx
     env_file: .env
     ports:
-      - 9000:80
+      - 3030:80
     volumes:
-      - /var/www/kittygram/static:/static
-      - /var/www/kittygram/media:/media/
+      - /var/www/kittygram/b_static:/var/www/kittygram/b_static
+      - /var/www/kittygram/b_media:/var/www/kittygram/b_media
